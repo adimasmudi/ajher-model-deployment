@@ -26,13 +26,12 @@ jobs:
       - name: Build and push Docker image
         run: |
           echo "${{ secrets.GCP_KEY_FILE }}" > gcp-key.json
-          docker build -t gcr.io/$GOOGLE_PROJECT_ID/ajher_model:${{ github.sha }} .
-          docker tag gcr.io/$GOOGLE_PROJECT_ID/ajher_model:${{ github.sha }} gcr.io/$GOOGLE_PROJECT_ID/ajher_model:latest
-          docker push gcr.io/$GOOGLE_PROJECT_ID/ajher_model:${{ github.sha }}
-          docker push gcr.io/$GOOGLE_PROJECT_ID/ajher_model:latest
+          docker build -t gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/ajher_model:${{ github.sha }} .
+          docker tag gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/ajher_model:${{ github.sha }} gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/ajher_model:latest
+          docker push gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/ajher_model:${{ github.sha }}
+          docker push gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/ajher_model:latest
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ./gcp-key.json
-          GOOGLE_PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
 
   deploy:
     runs-on: ubuntu-latest
