@@ -25,7 +25,7 @@ jobs:
 
       - name: authentication
         run: |
-          echo -n "${{ secrets.GCP_KEY_FILE }}" | base64 -d > service-account.json
+          echo -n "${{ secrets.GCP_KEY_FILE }}" > service-account.json
           gcloud auth activate-service-account ajher-model@ajher-409804.iam.gserviceaccount.com --key-file=service-account.json
           gcloud config list
           gcloud auth configure-docker -q
@@ -43,7 +43,7 @@ jobs:
     steps:
       - name: authentication
         run: |
-          echo -n "${{ secrets.GCP_KEY_FILE }}" | base64 -d > service-account.json
+          echo -n "${{ secrets.GCP_KEY_FILE }}" > service-account.json
           gcloud auth activate-service-account ajher-model@ajher-409804.iam.gserviceaccount.com --key-file=service-account.json
           gcloud config list
           gcloud auth configure-docker -q
