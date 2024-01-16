@@ -26,10 +26,10 @@ jobs:
       - name: Build and push Docker image
         run: |
           echo "${{ secrets.GCP_KEY_FILE }}" > gcp-key.json
-          docker build -t gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/ajher_model:${{ github.sha }} .
-          docker tag gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/ajher_model:${{ github.sha }} gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/ajher_model:latest
-          docker push gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/ajher_model:${{ github.sha }}
-          docker push gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/ajher_model:latest
+          docker build -t gcr.io/ajher-409804/ajher_model:${{ github.sha }} .
+          docker tag gcr.io/ajher-409804/ajher_model:${{ github.sha }} gcr.io/ajher-409804/ajher_model:latest
+          docker push gcr.io/ajher-409804/ajher_model:${{ github.sha }}
+          docker push gcr.io/ajher-409804/ajher_model:latest
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ./gcp-key.json
 
@@ -41,8 +41,8 @@ jobs:
         uses: google-github-actions/deploy-cloudrun@main
         with:
           service: ajher_model
-          image: gcr.io/$GOOGLE_PROJECT_ID/ajher_model:${{ github.sha }}
-          project: $GOOGLE_PROJECT_ID
+          image: gcr.io/ajher-409804/ajher_model:${{ github.sha }}
+          project: ajher-409804
           region: asia-southeast2
           platform: managed
           allow-unauthenticated: true
