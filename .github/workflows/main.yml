@@ -24,7 +24,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Login
-        uses: google-github-actions/setup-gcloud@v0
+        uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: ${{ secrets.PROJECT_ID }}
           service_account_email: ${{ secrets.GCP_EMAIL }}
@@ -46,7 +46,7 @@ jobs:
     needs: build
     steps:
       - name: Login
-        uses: google-github-actions/setup-gcloud@v0
+        uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: ${{ secrets.PROJECT_ID }}
           service_account_email: ${{ secrets.GCP_EMAIL }}
@@ -55,7 +55,7 @@ jobs:
 
       - name: Deploy to Google Cloud Run
         run: |
-          gcloud run deploy ajher_model \
+          gcloud run deploy ajher-model \
             --image=gcr.io/ajher-409804/ajher_model:${{ github.sha }} \
             --platform=managed \
             --region=asia-southeast2 \
