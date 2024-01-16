@@ -1,0 +1,8 @@
+flask
+gunicorn
+tensorflow
+numpy
+transformers
+scikit-learn
+scipy
+python-dotenv
