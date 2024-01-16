@@ -22,18 +22,39 @@ def predict():
     if request.method == "POST":
         try:
             if request.is_json:
-                referenceAnswer = request.json.get("reference_answer")
-                answer = request.json.get("answer")
+                answersRequest = request.json.get("answers")
 
-                predictionResult = model.predict(referenceAnswer, answer)[0][0]
-                uniqueNess = model.processUniqueness(answer)
+                finalResults = []
 
-                predictionResult = (predictionResult * 95)/100
-                uniqueNess = (uniqueNess * 5) /100
+                for data in answersRequest:
+                    questionId = data["question_id"]
+                    answerId = data["answer_id"]
+                    referenceAnswer = data["reference_answer"]
+                    answer = data["answer"]
+                    answerDuration = data["answer_duration"]
 
-                finalResult = round((predictionResult+uniqueNess),2)*100 if (predictionResult+uniqueNess)*100 < 100 else 100
+                    predictionResult = model.predict(referenceAnswer, answer)[0][0]
+                    uniqueNess = model.processUniqueness(answer)
 
-                response["data"]["grade"] = finalResult
+                    predictionResult = (predictionResult * 95)/100
+                    uniqueNess = (uniqueNess * 5) /100
+
+                    finalResult = round((predictionResult+uniqueNess),2)*100 if (predictionResult+uniqueNess)*100 < 100 else 100
+
+                    finalResults.append({
+                        "question_id" : questionId,
+                        "answer_id" : answerId,
+                        "answer" : answer,
+                        "reference_answer" : referenceAnswer,
+                        "grade" : finalResult,
+                        "answer_duration" : answerDuration
+                    })
+
+                    print("finalResult",finalResult)
+
+                response["data"] = finalResults
+
+                print("final_results",finalResults)
             else:
                 response["status"] = "error"
                 response["message"] = "request must be json"
