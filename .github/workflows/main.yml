@@ -24,9 +24,9 @@ jobs:
           pip install -r requirements.txt
 
       - name: Set up Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
+        uses: google-github-actions/auth@v2
         with:
-          credentials_json: ${{ secrets.GCP_KEY_FILE }}
+          credentials_json: '${{ secrets.GCP_KEY_FILE }}'
 
       - name: Build and push Docker image
         run: |
@@ -40,9 +40,9 @@ jobs:
     needs: build
     steps:
       - name: Set up Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
+        uses: google-github-actions/auth@v2
         with:
-          credentials_json: ${{ secrets.GCP_KEY_FILE }}
+          credentials_json: '${{ secrets.GCP_KEY_FILE }}'
 
       - name: Deploy to Google Cloud Run
         run: |
