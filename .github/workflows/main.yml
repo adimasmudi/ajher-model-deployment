@@ -66,4 +66,4 @@ jobs:
             --platform=managed \
             --region=asia-southeast2 \
             --allow-unauthenticated \
-            --set-env-vars=model=indobenchmark/indobert-base-p2,PORT=5000
+            --set-env-vars=model=indobenchmark/indobert-base-p2
