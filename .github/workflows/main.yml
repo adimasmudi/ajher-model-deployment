@@ -24,7 +24,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Set up Google Cloud SDK
-        uses: google-github-actions/auth@v2
+        uses: google-github-actions/auth@v0.8
         with:
           service_account_key: ${{ secrets.GCP_KEY_FILE }}
           export_default_credentials: true
@@ -41,7 +41,7 @@ jobs:
     needs: build
     steps:
       - name: Deploy to Google Cloud Run
-        uses: google-github-actions/auth@v2
+        uses: google-github-actions/auth@v0.8
         with:
           service_account_key: ${{ secrets.GCP_KEY_FILE }}
           export_default_credentials: true
