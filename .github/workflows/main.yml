@@ -61,7 +61,7 @@ jobs:
 
       - name: Deploy to Google Cloud Run
         run: |
-          gcloud run deploy ajher-409804 \
+          gcloud run deploy ajher-model \
             --image=gcr.io/ajher-409804/ajher_model:${{ github.sha }} \
             --platform=managed \
             --region=asia-southeast2 \
