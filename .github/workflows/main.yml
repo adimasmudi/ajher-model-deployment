@@ -67,4 +67,4 @@ jobs:
             --region=asia-southeast2 \
             --memory=4Gi \
             --allow-unauthenticated \
-            --set-env-vars=model=indobenchmark/indobert-base-p2
+            --set-env-vars=model=${{ secrets.BERT_MODEL }}
