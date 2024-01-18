@@ -1,4 +1,14 @@
-# Ajher Model Deployment for Model Service by Ajher Team
+# Ajher Team
+- Masmudi
+- Nicola Yani Alivant
+- Okhi Sahrul Barkah
+- Hesa Firdaus
+  
+From Google Developer Student Clubs Universitas Trunojoyo Madura
+
+# Ajher App
+
+Ajher is an app that can makes it easier for teachers to correct exam questions.
 
 ## General Information
 - Programming Language : Python (Flask)
