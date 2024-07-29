@@ -1,6 +1,6 @@
 flask
 gunicorn
-tensorflow
-transformers
+tensorflow==2.9.0
+transformers==4.18.0
 scikit-learn
 python-dotenv
