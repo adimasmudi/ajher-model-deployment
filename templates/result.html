@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hasil Penilaian</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+      }
+      .container {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        max-width: 700px;
+        width: 100%;
+        height: 80vh;
+        overflow-y: auto;
+      }
+      h1 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .result-section {
+        margin: 20px 0;
+      }
+      .result-section h2 {
+        margin-bottom: 10px;
+        color: #555;
+      }
+      .result-section p {
+        margin: 5px 0;
+        padding: 15px;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        border-left: 5px solid #007bff;
+        word-wrap: break-word;
+      }
+      .result-section .score-high {
+        background-color: #d4edda;
+        border-left-color: #28a745;
+      }
+      .result-section .score-medium {
+        background-color: #fff3cd;
+        border-left-color: #ffc107;
+      }
+      .result-section .score-low {
+        background-color: #f8d7da;
+        border-left-color: #dc3545;
+      }
+      .result-section .time {
+        background-color: #e2e3e5;
+        border-left-color: #6c757d;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Hasil Penilaian</h1>
+      <div class="result-section">
+        <h2>Nilai</h2>
+        <p class="{{ score_class }}">{{ score }}</p>
+      </div>
+      <div class="result-section">
+        <h2>Kunci Jawaban</h2>
+        <p>{{ reference_answer }}</p>
+      </div>
+      <div class="result-section">
+        <h2>Jawaban Siswa</h2>
+        <p>{{ answer }}</p>
+      </div>
+      <div class="result-section">
+        <h2>Waktu dibutuhkan</h2>
+        <p class="time">{{ time_cost }}</p>
+      </div>
+    </div>
+  </body>
+</html>

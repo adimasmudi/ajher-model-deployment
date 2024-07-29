@@ -1,6 +1,7 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, render_template, redirect, url_for,jsonify
 from dotenv import load_dotenv
 import os
+import time
 
 from model import BERTCorrection
 
@@ -11,63 +12,70 @@ app = Flask(__name__)
 model = BERTCorrection()
 model.load_model(os.getenv("model"))
 
-@app.route("/api/predict", methods=["POST"])
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+@app.route('/result')
+def result():
+    score = float(request.args.get('score'))
+    reference_answer = request.args.get('reference_answer')
+    answer = request.args.get('answer')
+    time_cost = request.args.get('time_cost')
+
+    # Determine score class
+    if score >= 0.75:
+        score_class = 'score-high'
+    elif 0.5 <= score < 0.75:
+        score_class = 'score-medium'
+    else:
+        score_class = 'score-low'
+
+    score = 0 if score < 0 else score
+
+    return render_template('result.html', score=score, reference_answer=reference_answer, answer=answer, time_cost=time_cost, score_class=score_class)
+
+@app.route("/api/v1/predict", methods=["POST"])
 def predict():
     response = {
-        "message" : "prediction success",
-        "code" : 200,
-        "status" : "success",
-        "data" : {}
+        "message": "prediction success",
+        "code": 200,
+        "status": "success",
+        "data": {}
     }
     if request.method == "POST":
         try:
+            referenceAnswer = ''
+            answer = ''
             if request.is_json:
-                answersRequest = request.json.get("answers")
-
-                finalResults = []
-
-                for data in answersRequest:
-                    questionId = data["question_id"]
-                    answerId = data["answer_id"]
-                    referenceAnswer = data["reference_answer"]
-                    answer = data["answer"]
-                    answerDuration = data["answer_duration"]
-
-                    predictionResult = model.predict(referenceAnswer, answer)[0][0]
-                    uniqueNess = model.processUniqueness(answer)
-
-                    predictionResult = (predictionResult * 95)/100
-                    uniqueNess = (uniqueNess * 5) /100
-
-                    finalResult = round((predictionResult+uniqueNess),2)*100 if (predictionResult+uniqueNess)*100 < 100 else 100
-
-                    finalResults.append({
-                        "question_id" : questionId,
-                        "answer_id" : answerId,
-                        "answer" : answer,
-                        "reference_answer" : referenceAnswer,
-                        "grade" : finalResult,
-                        "answer_duration" : answerDuration
-                    })
-
-                    print("finalResult",finalResult)
-
-                response["data"] = finalResults
-
-                print("final_results",finalResults)
+                referenceAnswer = request.json.get("reference_answer")
+                answer = request.json.get("answer")
             else:
-                response["status"] = "error"
-                response["message"] = "request must be json"
-                response["code"] = 500
+                referenceAnswer = request.form.get("reference_answer")
+                answer = request.form.get("answer")
+            
+            t1 = time.time()
+            predictionResult = model.predict(referenceAnswer, answer)
+            time_cost = time.time() - t1
+
+            response["data"] = {
+                "score": predictionResult[0][0],
+                "time_cost": f"{time_cost} seconds"
+            }
+
+            # Redirect to result page with arguments
+            return redirect(url_for('result', 
+                                    score=predictionResult[0][0], 
+                                    reference_answer=referenceAnswer, 
+                                    answer=answer, 
+                                    time_cost=f"{time_cost} seconds"))
 
         except Exception as err:
-            
             response["status"] = "error"
-            response["message"] = err
+            response["message"] = str(err)
             response["code"] = 500
 
-    # return the data dictionary as a JSON response
-    return jsonify(response)
+    return jsonify(response) if request.is_json else redirect(url_for('result'))
 
 # if this is the main thread of execution first load the model and
 # then start the server
