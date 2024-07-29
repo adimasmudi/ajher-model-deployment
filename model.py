@@ -3,10 +3,6 @@ import string
 import tensorflow as tf
 from transformers import AutoTokenizer, TFAutoModel
 from sklearn.metrics.pairwise import cosine_similarity
-from scipy.spatial.distance import euclidean
-from scipy.spatial.distance import cityblock
-from scipy.stats import pearsonr
-import numpy as np
 
 class BERTCorrection:
 
