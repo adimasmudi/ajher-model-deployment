@@ -61,8 +61,7 @@ jobs:
 
       - name: Deploy to Google Cloud Run
         run: |
-          gcloud beta run deploy ajher-model services add-iam-policy-binding \
-            --region=asia-southeast2 --member=allUsers --role=roles/run.invoker ajher-model
+          gcloud beta run deploy ajher-model  \
             --image=gcr.io/ajher-409804/ajher_model:${{ github.sha }} \
             --platform=managed \
             --region=asia-southeast2 \
